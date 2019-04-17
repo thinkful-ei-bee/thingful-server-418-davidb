@@ -48,10 +48,10 @@ describe('Things Endpoints', function() {
 
     protectEndpoints.forEach(endpoint => {
     describe(endpoint.name, () => {
-      it(`responds with 401 'Missing basic token' when no basic token`, () => {
+      it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
         return supertest(app)
           .get(endpoint.path)
-          .expect(401, { error: `Missing basic token` })
+          .expect(401, { error: `Missing bearer token` })
       });
 
       it(`respond 401 'Unauthorized request' when no credentials in token`, () => {
