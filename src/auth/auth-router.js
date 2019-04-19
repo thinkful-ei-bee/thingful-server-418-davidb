@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const AuthService = require('./auth-service');
+const requireAuth = require('../middleware/jwt-auth').requireAuth;
 const authRouter = express.Router();
 const jsonBodyParser = express.json();
 
@@ -43,5 +44,17 @@ authRouter
       })
       .catch(next);
   });
+
+
+const cb = function(req, res) {
+  const sub = req.user.user_name;
+  const payload = { user_id: req.user.id };
+  res.send({
+    authToken: AuthService.createJwt(sub, payload)
+  });
+};
+
+authRouter
+  .post('/refresh', requireAuth, cb);
 
 module.exports = authRouter;

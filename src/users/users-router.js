@@ -1,14 +1,16 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const UsersService = require('./users-service');
 
 const usersRouter = express.Router();
 const jsonBodyParser = express.json();
-const UsersService = require('./users-service');
 
 usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
     const { password, user_name, full_name, nickname } = req.body;
+    console.log(req.body, full_name);
+    
     for (const field of ['full_name', 'user_name', 'password']) {
       if (!req.body[field]) {
         return res.status(400).json({
